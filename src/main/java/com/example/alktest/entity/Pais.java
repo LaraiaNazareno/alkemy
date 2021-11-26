@@ -3,20 +3,23 @@ package com.example.alktest.entity;
 import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "pais")
+//@Table(name = "pais")
 @Getter
 @Setter
+@SQLDelete(sql = "UPDATE pais SET deleted = true WHERE id=?")
+@Where(clause = "deleted=false")
 
-public class paisEntity {
+public class Pais {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.SEQUENCE)
-
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String imagen;
@@ -28,12 +31,12 @@ public class paisEntity {
 
     private Long superficie;
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    @JoinColumn(name = "continente_id", insertable = false, updatable = false )
-    private continenteEntity continente;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "continente_id",referencedColumnName = "id", insertable = false, updatable = false )
+    private Continente continente;
 
-    @Column(name = "continente_id", nullable = false)
-    private Long continenteId;
+    //@Column(name = "continente_id", nullable = false)
+    //private Long continenteId;
 
     @ManyToMany(
             cascade = {
@@ -45,5 +48,7 @@ public class paisEntity {
             joinColumns = @JoinColumn(name = "pais_id"),
             inverseJoinColumns = @JoinColumn(name = "icon_id")
     )
-    private Set<iconEntity> icons = new HashSet<>();
+    private Set<Icon> icons = new HashSet<>();
+
+    private boolean deleted = Boolean.FALSE;
 }

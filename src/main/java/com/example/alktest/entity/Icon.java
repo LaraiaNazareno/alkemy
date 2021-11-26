@@ -3,6 +3,8 @@ package com.example.alktest.entity;
 import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -10,14 +12,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "icon")
+//@Table(name = "icon")
 @Getter
 @Setter
+@SQLDelete(sql = "UPDATE icon SET deleted = true WHERE id=?")
+@Where(clause = "deleted=false")
 
-public class iconEntity {
+public class Icon {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String imagen;
@@ -32,14 +36,19 @@ public class iconEntity {
 
     private String historia;
 
+    private boolean deleted = Boolean.FALSE;
+
     // private  boolean deleted = Boolean.FALSE;
 
     @ManyToMany(mappedBy = "icons", cascade = CascadeType.ALL)
-    private List<paisEntity> pais = new ArrayList<>();
+    private List<Pais> pais = new ArrayList<>();
 
-    //public void addPais(paisEntity pais){this.paises.add(pais);}
 
-    //public void removePais(paisEntity pais){this.paises.remove(pais);}
+    //add o remove paises
+
+    public void addPais(Pais pais){this.pais.add(pais);}
+
+    public void removePais(Pais pais){this.pais.remove(pais);}
 
 
 
