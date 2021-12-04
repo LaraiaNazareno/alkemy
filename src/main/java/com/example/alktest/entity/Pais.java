@@ -1,8 +1,12 @@
 package com.example.alktest.entity;
 
 import javax.persistence.*;
+
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import net.bytebuddy.dynamic.loading.InjectionClassLoader;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -15,6 +19,8 @@ import java.util.Set;
 @Setter
 @SQLDelete(sql = "UPDATE pais SET deleted = true WHERE id=?")
 @Where(clause = "deleted=false")
+@NoArgsConstructor
+@AllArgsConstructor
 
 public class Pais {
 
@@ -31,14 +37,15 @@ public class Pais {
 
     private Long superficie;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "continente_id",referencedColumnName = "id", insertable = false, updatable = false )
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
+    @JoinColumn(name = "continente_id")
     private Continente continente;
 
     //@Column(name = "continente_id", nullable = false)
     //private Long continenteId;
 
     @ManyToMany(
+
             cascade = {
                     CascadeType.PERSIST,
                     CascadeType.MERGE
@@ -51,4 +58,6 @@ public class Pais {
     private Set<Icon> icons = new HashSet<>();
 
     private boolean deleted = Boolean.FALSE;
+
+
 }

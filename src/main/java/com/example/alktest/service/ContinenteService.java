@@ -1,13 +1,13 @@
 package com.example.alktest.service;
 
-import com.example.alktest.dto.continenteDTO;
+import com.example.alktest.dto.ContinenteDTO;
 
 import java.util.List;
 
 public interface ContinenteService {
 
-     continenteDTO save(continenteDTO dto );
-     List<continenteDTO> getAllContinentes();
+     ContinenteDTO save(ContinenteDTO dto );
+     List<ContinenteDTO> getAllContinentes();
 
      void deleteContinente(Long id);
 

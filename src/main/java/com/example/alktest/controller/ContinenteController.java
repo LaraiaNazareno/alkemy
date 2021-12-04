@@ -1,7 +1,7 @@
 package com.example.alktest.controller;
 
 
-import com.example.alktest.dto.continenteDTO;
+import com.example.alktest.dto.ContinenteDTO;
 import com.example.alktest.service.ContinenteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("continentes")
+@RequestMapping("/continentes")
 public class ContinenteController {
 
     //@PostMapping("algo")
@@ -27,16 +27,16 @@ public class ContinenteController {
 
 
     @GetMapping
-    public ResponseEntity<List<continenteDTO>> getALL(){
-        List<continenteDTO> continentes = this.continenteService.getAllContinentes();
+    public ResponseEntity<List<ContinenteDTO>> getALL(){
+        List<ContinenteDTO> continentes = this.continenteService.getAllContinentes();
         return ResponseEntity.ok().body(continentes);
     }
 
     @PostMapping
-    public ResponseEntity<continenteDTO> saved(@RequestBody continenteDTO continente){
+    public ResponseEntity<ContinenteDTO> saved(@RequestBody ContinenteDTO continente){
         //redireccionar a service
 
-        continenteDTO continenteSaved = continenteService.save(continente);
+        ContinenteDTO continenteSaved = continenteService.save(continente);
         //Respuesta
         return ResponseEntity.status(HttpStatus.CREATED).body(continenteSaved);
 
@@ -44,7 +44,7 @@ public class ContinenteController {
     }
 
     @DeleteMapping("/{id}")
-    public  ResponseEntity<Void> deleteContienente (@PathVariable Long id){
+    public  ResponseEntity<Void> deleteContinente (@PathVariable Long id){
         this.continenteService.deleteContinente(id);
       return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 

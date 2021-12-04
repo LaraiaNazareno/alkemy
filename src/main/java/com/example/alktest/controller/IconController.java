@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping("icons")
+@RequestMapping("/icons")
 public class IconController {
 
 
@@ -26,18 +26,20 @@ public class IconController {
         this.iconService = iconService;
     }
 
-    /*
+
     @GetMapping
     public ResponseEntity<List<IconBasicDTO>> getALL(){
         List<IconBasicDTO>  icons =this.iconService.getAll();
         return ResponseEntity.ok().body(icons);
 
-    }*/
+    }
 
 
     @GetMapping("/{id}")
     public ResponseEntity<IconDTO>getDetailsById(@PathVariable Long id){
-       IconDTO icon = this.iconService.getDetailsById(id);
+
+
+        IconDTO icon = this.iconService.getDetailsById(id);
         return ResponseEntity.ok(icon);
 
     }
@@ -73,7 +75,7 @@ public class IconController {
 
     }
 
-    @GetMapping
+    @GetMapping("/filter")
     public ResponseEntity<List<IconDTO>> getDetailsByFilters(
 
             @RequestParam (required = false) String name,

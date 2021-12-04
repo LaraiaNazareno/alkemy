@@ -9,11 +9,11 @@ import java.util.List;
 
 public interface PaisService {
 
-    List<PaisDTO> getALLPaises();
+  // List<PaisDTO> getALLPaises();
 
     PaisDTO getDetailsById(Long id);
 
-    PaisDTO saved(PaisDTO paisDTO);
+    PaisDTO save(PaisDTO paisDTO);
 
     Pais getEntityById(Long id);
 

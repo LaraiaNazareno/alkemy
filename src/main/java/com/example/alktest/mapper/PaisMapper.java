@@ -9,32 +9,45 @@ import com.example.alktest.repository.ContinenteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Component
 public class PaisMapper {
     @Autowired
     private IconMapper iconMapper;
-    @Autowired
-    private ContinenteMapper continenteMapper;
 
-    private continenteDTO continenteDTO;
+
     @Autowired
     private ContinenteRepository continenteRepository;
 
 
     public Pais paisDTO2Entity(PaisDTO dto){
+        Continente conti = continenteRepository.findById(dto.getContinenteId()).orElseThrow();
+
+       // conti = continenteRepository.save(conti);
+
         Pais pais = new Pais();
+        //Continente conti = new Continente();
+
         pais.setImagen(dto.getImagen());
         pais.setDenominacion(dto.getDenominacion());
         pais.setCantidadHabitantes(dto.getCantidadHabitantes());
         pais.setSuperficie(dto.getSuperficie());
 
+
         //REVISAR
-        //pais.setContinente(dto.getContinenteId());
+        /*
+        Continente continente = continenteRepository.findById(dto.getContinenteId()).orElseThrow(()->
+                new ParamNotFound("no se encontro id")
+                );
+        //PaisDTO paisDTO = dto ;
+
+        pais.setContinente(new Continente(continente.getId(), continente.getImagen(),continente.getDenominacion(),false));
+            */
+
+
+        pais.setContinente(conti);
+
 
 
         //icons hay que meterlos en una lista
@@ -43,18 +56,9 @@ public class PaisMapper {
 
         return pais;
     }
-    /*
-    public Employee addEmployee(Employee employee) {
-        Department dept = departmentRepository.findById(employee.getDepartment().getId()).orElse(null);
-        if (null == dept) {
-            dept = new Department();
-        }
-        dept.setDeptName(employee.getDepartment().getDeptName());
-        employee.setDepartment(dept);
-        return employeeRepository.save(employee);
-    }*/
 
     public PaisDTO paisEntity2DTO(Pais entity, boolean loadIcons){
+
         PaisDTO dto = new PaisDTO();
         dto.setId(entity.getId());
         dto.setImagen(entity.getImagen());
@@ -62,9 +66,9 @@ public class PaisMapper {
         dto.setCantidadHabitantes(entity.getCantidadHabitantes());
         dto.setSuperficie(entity.getSuperficie());
 
+        dto.setContinenteId(entity.getContinente().getId());
 
-        //dto.setContinenteId(entity.getContinenteId());
-       // dto.setContinenteId(entity.getContinente().getId());
+
 
 
         if(loadIcons) {

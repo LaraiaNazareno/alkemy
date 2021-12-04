@@ -5,7 +5,7 @@ import lombok.Setter;
 @Getter
 @Setter
 
-public class continenteDTO {
+public class ContinenteDTO {
 
     private Long id;
     private String imagen;

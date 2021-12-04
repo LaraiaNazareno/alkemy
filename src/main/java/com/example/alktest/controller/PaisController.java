@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("pais")
+@RequestMapping("/pais")
 public class PaisController {
 
     @Autowired
@@ -27,7 +27,9 @@ public class PaisController {
 
     @PostMapping
     public ResponseEntity<PaisDTO> save(@RequestBody PaisDTO pais){
-        PaisDTO paisDTO = this.paisService.saved(pais);
+
+
+        PaisDTO paisDTO = this.paisService.save(pais);
         return ResponseEntity.ok().body(paisDTO);
 
 
@@ -35,6 +37,7 @@ public class PaisController {
 
     @GetMapping("/{id}")
     public  ResponseEntity<PaisDTO> getDetailsById(@PathVariable Long id){
+
         PaisDTO pais = this.paisService.getDetailsById(id);
         return ResponseEntity.ok(pais);
 

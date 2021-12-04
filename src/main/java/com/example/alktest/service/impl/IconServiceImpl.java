@@ -21,31 +21,24 @@ import java.util.Set;
 @Service
 public class IconServiceImpl implements IconService {
 
-
+    @Autowired
     private IconRepository iconRepository;
+    @Autowired
     private IconMapper iconMapper;
+    @Autowired
     private PaisService paisService;
+    @Autowired
     private IconSpecification iconSpecification;
 
-    @Autowired
-    public IconServiceImpl(
-            IconRepository iconRepository,
-           IconSpecification iconSpecification,
-            PaisService paisService,
-            IconMapper iconMapper) {
-        this.iconRepository = iconRepository;
-       this.iconSpecification = iconSpecification;
-        this.iconMapper = iconMapper;
-        this.paisService = paisService;
-    }
 
-
+    @Override
     public List<IconBasicDTO> getAll(){
         List<Icon> entities = this.iconRepository.findAll();
         List<IconBasicDTO> iconBasicDTOS = this.iconMapper.iconEntitySet2BasicDTOList(entities);
 
         return iconBasicDTOS;
     }
+    @Override
     public IconDTO save(IconDTO iconDTO){
         //pasamos de dto a entity
         Icon entity = this.iconMapper.iconDTO2Entity(iconDTO);
@@ -58,7 +51,7 @@ public class IconServiceImpl implements IconService {
         return result;
 
     }
-
+    @Override
     public void addPais(Long id, Long idPais) {
         Icon entity = this.iconRepository.getById(id);
         entity.getPais().size();
@@ -66,7 +59,7 @@ public class IconServiceImpl implements IconService {
         entity.addPais(paisEntity);
         this.iconRepository.save(entity);
     }
-
+    @Override
     public void removePais(Long id, Long idPais) {
         Icon entity = this.iconRepository.getById(id);
         entity.getPais().size();
@@ -74,23 +67,25 @@ public class IconServiceImpl implements IconService {
         entity.removePais(paisEntity);
         this.iconRepository.save(entity);
     }
-
+    @Override
     public IconDTO getDetailsById(Long id){
         Optional <Icon> entity = this.iconRepository.findById(id);
+
        if (!entity.isPresent()){
            throw new ParamNotFound("Id icono no valido");
         }
-        IconDTO iconDTO = this.iconMapper.iconEntity2DTO(entity.get(),true);
+
+       IconDTO iconDTO = this.iconMapper.iconEntity2DTO(entity.get(),true);
         return iconDTO;
     }
 
 
-
+    @Override
     public void delete(Long id) {
 
         this.iconRepository.deleteById(id);
     }
-
+    @Override
     public List<IconDTO> getByFilters(String name, String date, Set<Long> cities, String order) {
         IconFiltersDTO filtersDTO = new IconFiltersDTO(name, date, cities, order);
         List<Icon> entities = this.iconRepository.findAll(
@@ -99,6 +94,7 @@ public class IconServiceImpl implements IconService {
         List<IconDTO> dtos = this.iconMapper.iconEntitySet2DTOList(entities, true);
         return dtos;
     }
+    @Override
     public IconDTO update(Long id, IconDTO iconDTO) {
         Optional<Icon> entity = this.iconRepository.findById(id);
         if (!entity.isPresent()) {
